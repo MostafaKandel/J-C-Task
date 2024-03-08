@@ -7,8 +7,18 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
     <link rel="stylesheet" href="{%static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/pretty-checkbox.min.css' %}" />
+    <script
+      src="https://cdn.plot.ly/plotly-2.29.1.min.js"
+      charset="utf-8"
+    ></script>
 
     <title>Augabe</title>
+    <script>
+      function myFunction() {
+        document.getElementById("mainFrameOne").style.display = "none";
+        document.getElementById("mainFrameTwo").style.display = "block";
+      }
+    </script>
   </head>
   <body>
     <script src="{% static 'js/jquery-3.4.1.slim.min.js' %}"></script>
@@ -19,11 +29,14 @@
       <img src="{% static 'img/JC.jpeg' %}" class="card-img-top" alt="...">
       <div class="card-body">
         <h5 class="card-title">This is the demo for JCB</h5>
-        <button class="btn btn-primary" >
+        <button class="btn btn-primary" onclick="myFunction()">
           Load Chart
         </button>
       </div>
     </div>
-  
+    <div id="mainFrameTwo" class="card" style=" display: none">
+      
+      {{plot_html|safe}}
+    </div>
   </body>
 </html>

@@ -7,11 +7,41 @@ from django.http import JsonResponse
 
 
 
+
+
 def index(request):
-    return render(request, 'aufgabe/index.html')
+    '''
+    usage: used for main html page for card and display the graph(x,y) and render the graph to Html file  
+    '''
+    link = 'http://localhost:8000/data' 
+   # get the data from the link
+    response=requests.get(link)
+    # convert the response to json
+    responsetwo=response.json()
+    json_data=responsetwo
+    # Load JSON data
+    data = json.loads(json_data)
+
+    # Extract x and y values
+    x_values = [entry["a"] for entry in data]
+    y_values = [entry["b"] for entry in data]
+
+    # Create plot
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=x_values, y=y_values, mode='markers', name='Data'))
+
+    # Update layout if needed
+    fig.update_layout(title='Plot of a vs b', xaxis_title='a', yaxis_title='b')
+
+    # Convert plot to HTML
+    plot_html = fig.to_html(full_html=False, include_plotlyjs='cdn')
+
+    return render(request, 'aufgabe/index.html', {'plot_html': plot_html})
     
 
+
 def get_df(request):
+
     '''
     usage: this function is used to return json data from data frame which is two columns and 1000 rows
     returns: json data
